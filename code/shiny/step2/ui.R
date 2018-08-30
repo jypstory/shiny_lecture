@@ -1,6 +1,8 @@
+#install.packages(c('rvest','httr','KoNLP','stringr','tm','qgraph','xml2','dplyr','networkD3'))
 library(shiny)
 library(shinythemes)
 library(DT)
+library(networkD3)
 
 shinyUI(
   navbarPage("My Shiny",
