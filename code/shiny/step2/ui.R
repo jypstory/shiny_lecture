@@ -125,6 +125,37 @@ shinyUI(
                                  )
                         ),
                         tabPanel("Crawling Facebook")
+             ),
+             
+             ## --------------------------------------------------------------------##
+             ## Tab4 :: mers ,  prefix - MRS_
+             ## Tab2 :: Data EDA,  prefix - EDA_
+             tabPanel("MERS Analysis",
+                      sidebarLayout(
+                        sidebarPanel(
+                          width = 3,
+                          # Input: Select a file ----
+                          fileInput("MRS_file", "Choose File",
+                                    multiple = FALSE
+                          ),
+                          
+                          # Horizontal line ----
+                          tags$hr(),
+                          
+                          actionButton("MRS_action", "Action", class = "btn-primary")
+                        ),
+                        
+                        # Main panel for displaying outputs ----
+                        mainPanel(
+                          tabsetPanel(
+                            tabPanel("View Data",
+                                     h3("View Data"),
+                                     scatterplotThreeOutput("MERS_graphjs", width = "100%", height = "800px")
+                            )
+                          )
+                        )
+                      )
              )
-  ))
+  )
+)
 

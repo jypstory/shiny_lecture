@@ -4,10 +4,19 @@ library(KoNLP)
 library(stringr)
 library(tm)
 library(qgraph)
-library('xml2')
+library(xml2)
 library(dplyr)
 library(networkD3)
 library(DT)
+
+library(igraph)
+library(tidyverse)
+library(threejs)
+library(readxl)
+library(ggpubr)
+library(forcats)
+library(extrafont)
+loadfonts()
 
 shinyServer(function(input, output) {
   
@@ -185,6 +194,50 @@ shinyServer(function(input, output) {
                  zoom=TRUE, opacity=0.8, fontSize=15,
                  fontFamily="Apple SD Gothic Neo")
   )
+  
+  
+  ## --------------------------------------------------------------------##
+  ## Tab4 :: mers ,  prefix - MRS_ 
+  
+  
+  function_get_mers_info <- eventReactive(input$MRS_action, { 
+    
+    
+    mers_vert <- read_excel(input$MRS_file$datapath, sheet="확진자")
+    colnames(mers_vert) <-c("확진자", "성별", "나이", "확진일", "현상태", "현상태_판정일자", 
+                            "감염병원", "감염지역", "감염 이유", "비고")
+    
+    mers_edge <- read_excel(input$MRS_file$datapath, sheet="확진자간 link")
+    
+    ## 1.2. 네트워크 데이터 변환
+    mers_ng <- graph_from_data_frame(d = mers_edge, vertices = mers_vert, directed = TRUE)
+    
+    
+    # 2. 네트워크 데이터 변환 ------
+    V(mers_ng)$color <- ifelse(V(mers_ng)$성별 == "f", "red", "blue")
+    
+    # 5. 병원 시각화 ------
+    V(mers_ng)$color <- fct_lump(V(mers_ng)$감염병원, 7)
+    
+    result <- list()
+    result$mers_ng <- mers_ng
+    return(result)
+  })
+  
+  output$MERS_graphjs <- renderScatterplotThree({
+    mers_ng <- function_get_mers_info()$mers_ng
+    graphjs(mers_ng,
+            vertex.shape = V(mers_ng)$name,
+            vertex.size = 0.1,
+            edge.color = 'darkgray',
+            main = "메르스 전파 네트워크"
+    )
+  })
+  
+  
+  
+  
+  
   
 })
 
