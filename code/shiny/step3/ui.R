@@ -99,7 +99,65 @@ shinyUI(
                           )
                         )
                       )
+             ),
+             
+             ## --------------------------------------------------------------------##
+             ## Tab3 :: Text Mining ,  prefix - TM_
+             navbarMenu("Text Mining",
+                        tabPanel("Crawling Movie",
+                                 sidebarLayout(
+                                   sidebarPanel(
+                                     textInput("TM_txt_url", "Input URL:", "https://movie.daum.net/moviedb/grade?movieId=99611&type=netizen&page="),
+                                     
+                                     sliderInput("TM_crawling_page_slider", "Crawling Page:", 1, 500, 200),
+                                     
+                                     # tags$h5("Deafult actionButton:"),
+                                     # actionButton("TM_default_action", "Search"),
+                                     
+                                     tags$h5("Start Crawling:"),
+                                     actionButton("TM_start_action", "Crawling Action", class = "btn-primary")
+                                   ),
+                                   
+                                   mainPanel(
+                                     tabsetPanel(
+                                       tabPanel("Reviews", DT::dataTableOutput("TM_tbl_reviews")), 
+                                       tabPanel("Draw qgraph",  plotOutput("TM_qgraph")), 
+                                       tabPanel("Draw networkD3 ", forceNetworkOutput("TM_nw3d"))
+                                     )
+                                   )
+                                 )
+                        ),
+                        tabPanel("Crawling Facebook")
+             ),
+             
+             ## --------------------------------------------------------------------##
+             ## Tab4 :: mers ,  prefix - MRS_
+             ## Tab2 :: Data EDA,  prefix - EDA_
+             tabPanel("MERS Analysis",
+                      sidebarLayout(
+                        sidebarPanel(
+                          width = 3,
+                          # Input: Select a file ----
+                          fileInput("MRS_file", "Choose File",
+                                    multiple = FALSE
+                          ),
+                          
+                          # Horizontal line ----
+                          tags$hr(),
+                          
+                          actionButton("MRS_action", "Action", class = "btn-primary")
+                        ),
+                        
+                        # Main panel for displaying outputs ----
+                        mainPanel(
+                          tabsetPanel(
+                            tabPanel("View Data",
+                                     h3("View Data"),
+                                     scatterplotThreeOutput("MERS_graphjs", width = "100%", height = "800px")
+                            )
+                          )
+                        )
+                      )
              )
   )
 )
-
