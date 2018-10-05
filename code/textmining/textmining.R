@@ -1,4 +1,4 @@
-install.packages(c('rvest','httr','KoNLP','stringr','tm','qgraph','xml2','dplyr','networkD3'))
+#install.packages(c('rvest','httr','KoNLP','stringr','tm','qgraph','xml2','dplyr','networkD3'))
 library(rvest)
 library(httr)
 library(KoNLP)
@@ -8,6 +8,8 @@ library(qgraph)
 library('xml2')
 library(dplyr)
 library(networkD3)
+
+#par(family="Apple SD Gothic Neo")   ## for mac
 
 url_base <- 'https://movie.daum.net/moviedb/grade?movieId=99611&type=netizen&page='   # 크롤링 대상 URL
 all.reviews <- c() 
